@@ -36,4 +36,25 @@ python manage.py runserver
 - `POST /api/users/token/` — obtain JWT access & refresh tokens
 - `POST /api/users/token/refresh/` — refresh JWT access token
 
+## Week 2 — Inventory System (implemented)
+
+Endpoints added:
+
+- `GET /api/inventory/items/` — list authenticated user's items
+- `POST /api/inventory/items/` — create item (accepts `category_id`)
+- `GET /api/inventory/items/<id>/` — retrieve item details
+- `PUT /api/inventory/items/<id>/` — update item
+- `DELETE /api/inventory/items/<id>/` — delete item
+
+- `GET /api/inventory/categories/` — list user's categories
+- `POST /api/inventory/categories/` — create category
+- `GET /api/inventory/categories/<id>/` — retrieve category
+- `PUT /api/inventory/categories/<id>/` — update category
+- `DELETE /api/inventory/categories/<id>/` — delete category
+
+Notes:
+- All inventory endpoints require authentication via JWT (use the tokens from `/api/users/token/`)
+- When creating or updating an item you can pass `category_id` to associate an existing category that belongs to you.
+
+
 Notes: Inventory API endpoints and dashboard will be implemented in Week 2 and beyond.
