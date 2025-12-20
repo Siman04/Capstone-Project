@@ -53,3 +53,11 @@ class InventoryAPITest(TestCase):
         names = [it['name'] for it in resp.data]
         self.assertIn('A', names)
         self.assertNotIn('B', names)
+
+    def test_export_csv(self):
+        Item.objects.create(name='C', user=self.user, expiry_date=datetime.date.today())
+        resp = self.client.get('/api/inventory/items/export/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp['Content-Type'], 'text/csv')
+        content = resp.content.decode('utf-8')
+        self.assertIn('C', content)

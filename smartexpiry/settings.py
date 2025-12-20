@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'users',
     'inventory',
     'dashboard',
+    'notifications',
 ]
 
 MIDDLEWARE = [
@@ -104,6 +105,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
+
+# Emails: default console backend for dev; can be overridden via env / settings
+EMAIL_BACKEND = os.environ.get('DJANGO_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_DEFAULT_FROM_EMAIL', 'no-reply@smartexpiry.local')
 
 from datetime import timedelta
 
