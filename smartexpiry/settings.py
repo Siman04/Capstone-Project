@@ -8,9 +8,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-me-for-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# Allow local demo access and forwarded/preview hosts for demos only. In production, set explicit hosts and use env vars.
+# WARNING: The wildcard below is permissive and should NOT be used in production.
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "*"]
 
 # Application definition
 INSTALLED_APPS = [
