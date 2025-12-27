@@ -88,6 +88,43 @@ Notes:
 
 - You can export your items as CSV at: `GET /api/inventory/items/export/` (must be authenticated).
 
+---
+
+## API Testing (Postman / Manual)
+
+**Order of operations (important):**
+- **Register first** using `POST /api/users/register/` with `{ "username": "<user>", "password": "<pass>" }`.
+- **Then obtain a token** using `POST /api/users/token/` with the same credentials; use the returned **access** token in the `Authorization: Bearer <token>` header for protected endpoints.
+
+**Common endpoints for testing**
+- Register (POST): `/api/users/register/`  
+  Body (JSON): `{ "username": "testuser", "password": "testpass" }`
+- Obtain token (POST): `/api/users/token/`  
+  Body (JSON): `{ "username": "testuser", "password": "testpass" }` returns `{ "access": "...", "refresh": "..." }`
+- Create category (POST): `/api/inventory/categories/` — requires `Authorization: Bearer <access>`; body: `{ "name": "Food" }`  
+- Create item (POST): `/api/inventory/items/` — requires `Authorization`; example body:
+
+```json
+{
+  "name": "Milk",
+  "category_id": 1,
+  "quantity": 1,
+  "purchase_date": "2025-12-27",
+  "expiry_date": "2026-01-06",
+  "notes": "Test"
+}
+```
+
+**Notes & tips**
+- If `register` returns `400` (user exists), skip straight to `token` with the existing credentials.
+- In Postman, save the `access` token to an environment variable (e.g., `access_token`) after obtaining it, and set the `Authorization` header to `Bearer {{access_token}}` for subsequent requests.
+- After creating a category, copy the `id` and store it as `category_id` to use when creating items.
+
+**Public test URL (temporary tunnel)**
+- If you need a public endpoint to test from outside this environment, a temporary tunnel URL may be provided (example: `https://swift-emus-dance.loca.lt`). The tunnel is temporary and may be restarted; if it is unavailable, start the dev server locally and/or create a new tunnel (ngrok/localtunnel).
+
+---
+
 ## CI
 
 - A GitHub Actions workflow is included at `.github/workflows/ci.yml` to run tests on push/PR to `main`.
